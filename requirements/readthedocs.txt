@@ -1,4 +1,4 @@
-mmcv
+mmcv==1.4
 prettytable
 torch
 torchvision

@@ -70,10 +70,10 @@ class NYUCrop(object):
             dict: Croped results.
         """
 
-        if self.depth:
-            depth_cropped = results["depth_gt"][45:472, 43:608]
-            results["depth_gt"] = depth_cropped
-            results["depth_shape"] = results["depth_gt"].shape
+        #if self.depth:
+        #    depth_cropped = results["depth_gt"][45:472, 43:608]
+        #    results["depth_gt"] = depth_cropped
+        #    results["depth_shape"] = results["depth_gt"].shape
 
         img_cropped = results["img"][45:472, 43:608, :]
         results["img"] = img_cropped

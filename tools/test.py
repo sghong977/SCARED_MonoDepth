@@ -151,14 +151,17 @@ def main():
         mmcv.mkdir_or_exist(tmpdir)
     else:
         tmpdir = None
-
+    
+    show_dir = args.show_dir
     if not distributed:
+        # scared here for tool/test (multigpu dead fuck)
         model = MMDataParallel(model, device_ids=[0])
+        print(args.show, args.show_dir, args.eval, eval_on_format_results)
         results = single_gpu_test(
             model,
             data_loader,
             args.show,
-            args.show_dir,
+            out_dir=show_dir,
             pre_eval=args.eval is not None and not eval_on_format_results,
             format_only=args.format_only or eval_on_format_results,
             format_args=eval_kwargs)

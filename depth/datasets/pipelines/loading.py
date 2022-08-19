@@ -65,23 +65,35 @@ class DepthLoadAnnotations(object):
         Returns:
             dict: The dict contains loaded depth estimation annotations.
         """
+        #print(results.keys())
+        #print(results['ann_info']['depth_map'],  "$$$$$$")
+        #if self.file_client is None:
+        #    self.file_client = mmcv.FileClient(**self.file_client_args)
 
-        if self.file_client is None:
-            self.file_client = mmcv.FileClient(**self.file_client_args)
+        #if results.get('depth_prefix', None) is not None:
+        #    filename = osp.join(results['depth_prefix'],
+        #                        results['ann_info']['depth_map'])
+        #else:
+        #    filename = results['ann_info']['depth_map']
 
-        if results.get('depth_prefix', None) is not None:
-            filename = osp.join(results['depth_prefix'],
-                                results['ann_info']['depth_map'])
-        else:
-            filename = results['ann_info']['depth_map']
+        # load depth here?
+        #import tifffile
 
-        depth_gt = np.asarray(Image.open(filename),
-                              dtype=np.float32) / results['depth_scale']
+        #print(results["img_info"]["ann"]["depth_map"])
+        #print(len(results["img_info"]["ann"]["depth_map"]))
 
-        results['depth_gt'] = depth_gt
-        results['depth_ori_shape'] = depth_gt.shape
+        #depth_gt = tifffile.imread(results["img_info"]["ann"]["depth_map"])
+        #print("aa")
+        #depth_gt = np.ascontiguousarray(depth_gt, dtype=np.float32)
+        #print(depth_gt)
+        #depth_gt = [0,0]
+        #depth_gt = np.asarray(Image.open(filename),
+        #                      dtype=np.float32) / results['depth_scale']
 
-        results['depth_fields'].append('depth_gt')
+        #results['depth_gt'] = depth_gt
+        #results['depth_ori_shape'] = depth_gt.shape
+
+        #results['depth_fields'].append('depth_gt')
         return results
 
     def __repr__(self):

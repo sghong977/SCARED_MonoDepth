@@ -122,16 +122,46 @@ def single_gpu_test(model,
                         filename = filename + '.npy'
                         out_file = osp.join(out_dir, filename)
                     else:
-                        out_file = osp.join(out_dir, replace_str(img_meta['ori_filename']))
+                        
+                        out_file = osp.join(out_dir, img_meta['ori_filename'][10:])
+                        #out_file = osp.join(out_dir, replace_str(img_meta['ori_filename']))
                 else:
                     out_file = None
 
+                gt_depth = dataset.get_depth(batch_indices[0])
+                
+                
+                #Visualize pred
                 model.module.show_result(
                     img_show,
                     result_depth,
                     show=show,
                     out_file=out_file,
                     format_only=format_only)
+                
+                import tifffile as tiff  
+                #gt_depth = tiff.imread(img_meta['ori_filename'].replace("left_finalpass", 'disparity').replace('png', 'tiff'))
+                gt_depth = gt_depth[np.newaxis,np.newaxis,:,:]
+                
+                """
+                #visualize gt
+                model.module.show_result(
+                    img_show,
+                    gt_depth,
+                    show=show,
+                    out_file=out_file[:-4]+'_.png',
+                    format_only=format_only)
+                """
+                import matplotlib.pyplot as plt 
+                import cv2
+                concat = np.concatenate((gt_depth[0][0],result_depth[0][0]), axis=1)
+                #fig = plt.figure()
+                plt.imshow(concat, cmap='hot')
+                #ax1 = fig.add_subplot(1, 2, 1)
+                #ax2 = fig.add_subplot(1, 2, 2)
+                #ax1.imshow(gt_depth[0][0], cmap='hot')
+                #ax2.imshow(result_depth[0][0], cmap='hot')
+                plt.savefig(out_file[:-4]+'_.png')
 
         batch_size = len(result)
         for _ in range(batch_size):
